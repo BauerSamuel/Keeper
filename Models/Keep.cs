@@ -19,11 +19,14 @@ namespace Keepr.Models
     [Required]
     public string Name { get; set; }
 
-    private int Keeps { get; set; }
+    public string Description { get; set; }
 
-    public Keep(string name, string imgSource, bool isPrivate)
+    private int Views { get; set; } = 0;
+
+    public Keep(string name, string description, string imgSource, bool isPrivate)
     {
       Name = name;
+      Description = description;
       ImgSource = imgSource;
       IsPrivate = isPrivate;
     }

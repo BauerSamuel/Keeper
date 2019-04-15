@@ -28,12 +28,18 @@ namespace Keepr.Repositories
     //Below Are intentional methods.
     internal IEnumerable<Vault> GetUserVaults(string id)
     {
-      return _db.Query<Vault>("SELECT * FROM keeps WHERE userId = @id", new { id });
+      return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @id", new { id });
     }
 
-    internal ActionResult<Vault> CreateVault(Vault newVault)
+    internal Vault CreateVault(Vault newVault)
     {
-      _db.Execute("INSERT INTO vaults (name, description, userId) VALUES (@Name, @Description, @userId)", newVault);
+
+      int id = _db.ExecuteScalar<int>("INSERT INTO vaults (name, description, userId) VALUES (@Name, @Description, @UserId); SELECT LAST_INSERT_ID();", newVault);
+      if (id == 0)
+      {
+        return null;
+      }
+      newVault.Id = id;
       return newVault;
     }
 

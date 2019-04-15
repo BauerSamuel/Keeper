@@ -38,30 +38,30 @@ namespace Keepr
           options.LoginPath = "/Account/Login";
           options.Events.OnRedirectToLogin = (context) =>
                   {
-                context.Response.StatusCode = 401;
-                return Task.CompletedTask;
-              };
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                  };
         });
       services.AddCors(options =>
           {
             options.AddPolicy("CorsDevPolicy", builder =>
                   {
-                builder
-                          .WithOrigins(new string[]{
+                    builder
+                              .WithOrigins(new string[]{
                                 "http://localhost:8080"
-                      })
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials();
-              });
+                          })
+                              .AllowAnyMethod()
+                              .AllowAnyHeader()
+                              .AllowCredentials();
+                  });
           });
 
       services.AddMvc();
 
       services.AddTransient<IDbConnection>(x => CreateDBContext());
       services.AddTransient<UserRepository>();
-
-
+      services.AddTransient<VaultsRepository>();
+      services.AddTransient<KeepsRepository>();
     }
 
     private IDbConnection CreateDBContext()

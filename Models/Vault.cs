@@ -5,23 +5,19 @@ namespace Keepr.Models
 {
   public class Vault
   {
-    [Required]
-    private int Id { get; set; }
-    [Required]
-    private string UserId { get; set; }
+    public int Id { get; set; }
+    public string UserId { get; set; }
     [Required]
     public string Name { get; set; }
-    public string Description { get; set; }
     [Required]
-    public List<string> VaultKeeps { get; set; }
+    public string Description { get; set; }
 
-    public Vault(string name, string description, string userId)
-    {
-      Name = name;
-      Description = description;
-      UserId = userId;
-      VaultKeeps = new List<string>();
-    }
+    // public Vault(string name, string description, string userId)
+    // {
+    //   Name = name;
+    //   Description = description;
+    //   UserId = userId;
+    // }
 
   }
 

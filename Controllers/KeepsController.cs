@@ -16,9 +16,9 @@ namespace Keepr.Controllers
 
   public class KeepsController : ControllerBase
   {
-    private readonly KeepRepository _kr;
+    private readonly KeepsRepository _kr;
 
-    public KeepsController(KeepRepository kr)
+    public KeepsController(KeepsRepository kr)
     {
       _kr = kr;
     }
@@ -46,6 +46,8 @@ namespace Keepr.Controllers
     [HttpPost]
     public ActionResult<Keep> Create([FromBody]Keep newKeep)
     {
+      string id = HttpContext.User.Identity.Name;
+      newKeep.UserId = id;
       return _kr.CreateKeep(newKeep);
     }
 

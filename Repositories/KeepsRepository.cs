@@ -6,13 +6,14 @@ using Keepr.Models;
 using Dapper;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Keepr.Repositories
 {
-  public class KeepRepository
+  public class KeepsRepository
   {
     private readonly IDbConnection _db;
-    public KeepRepository(IDbConnection db)
+    public KeepsRepository(IDbConnection db)
     {
       _db = db;
     }
@@ -30,7 +31,7 @@ namespace Keepr.Repositories
     public ActionResult<Keep> CreateKeep(Keep newKeep)
     {
       //will crash if fails
-      _db.Execute("INSERT INTO keeps (name, description, img, isPrivate) VALUES (@Name, @Description, @imgSource, @isPrivate)", newKeep);
+      _db.Execute("INSERT INTO keeps (name, description, img, isPrivate, views, shares, keeps) VALUES (@Name, @Description, @Img, @isPrivate, 0, 0, 0)", newKeep);
       return newKeep;
     }
 

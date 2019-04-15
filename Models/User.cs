@@ -18,7 +18,6 @@ namespace Keepr.Models
   public class UserRegistration // HELPER MODEL
   {
 
-    [Required]
     public string Username { get; set; }
 
     [Required]

@@ -18,26 +18,28 @@ namespace Keepr.Repositories
       _db = db;
     }
 
-    public IEnumerable<Vault> GetAllPublic()
-    {
-      return _db.Query<Vault>("SELECT * FROM vaults WHERE isPrivate = 0");
-    }
-
     public IEnumerable<Vault> GetById(string id)
     {
       return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @id", new { id });
     }
 
-    public ActionResult<Vault> CreateKeep(Vault newVault)
+
+
+    //Below Are intentional methods.
+    internal IEnumerable<Vault> GetUserVaults(string id)
     {
-      //will crash if fails
-      _db.Execute("INSERT INTO vaults (name, description, img, isPrivate) VALUES (@Name, @Description, @imgSource, @isPrivate)", newVault);
+      return _db.Query<Vault>("SELECT * FROM keeps WHERE userId = @id", new { id });
+    }
+
+    internal ActionResult<Vault> CreateVault(Vault newVault)
+    {
+      _db.Execute("INSERT INTO vaults (name, description, userId) VALUES (@Name, @Description, @userId)", newVault);
       return newVault;
     }
 
-    public bool DeleteKeep(string vaultId)
+    internal bool DeleteVault(string vaultId)
     {
-      int success = _db.Execute("DELETE FROM vaults WHERE id = @keepId", new { vaultId });
+      int success = _db.Execute("DELETE FROM vaults WHERE id = @vaultId", new { vaultId });
       return success > 0;
     }
   }

@@ -23,38 +23,35 @@ namespace Keepr.Controllers
       _vr = vr;
     }
 
-    //Get public keeps
+    //Get user vaults
     [HttpGet]
     public ActionResult<IEnumerable<Vault>> Get()
     {
-      IEnumerable<Keep> results = _vr.GetAllPublic();
+      string id = HttpContext.User.Identity.Name;
+      IEnumerable<Vault> results = _vr.GetUserVaults(id);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
     }
 
-    //Get User Keeps
-    [HttpGet("user")]
-    public ActionResult<IEnumerable<Keep>> GetOne()
+    public ActionResult<Vault> Get()
     {
-      string id = HttpContext.User.Identity.Name;
-      IEnumerable<Keep> results = _kr.GetById(id);
-      if (results == null) { return BadRequest(); }
-      else { return Ok(_kr.GetById(id)); }
+      //Finsih after lunch.
     }
 
-    //Create a Keep
+
+    //Create a vault
     [HttpPost]
-    public ActionResult<Keep> Create([FromBody]Keep newKeep)
+    public ActionResult<Vault> Create([FromBody]Vault newVault)
     {
-      return _kr.CreateKeep(newKeep);
+      return _vr.CreateVault(newVault);
     }
 
-    //Delete a Keep
-    [HttpDelete("{keepId}")]
+    //Delete a Vault
+    [HttpDelete("{vaultId}")]
 
-    public ActionResult<string> Delete(string keepId)
+    public ActionResult<string> Delete(string vaultId)
     {
-      bool wasSuccessful = _kr.DeleteKeep(keepId);
+      bool wasSuccessful = _vr.DeleteVault(vaultId);
       if (wasSuccessful)
       {
         return Ok();

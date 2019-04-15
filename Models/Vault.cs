@@ -7,10 +7,13 @@ namespace Keepr.Models
   {
     [Required]
     private int Id { get; set; }
+
     [Required]
     public string Name { get; set; }
+
     [Required]
     public List<string> VaultKeeps { get; set; }
+
 
     public Vault(string name)
     {

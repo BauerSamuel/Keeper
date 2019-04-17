@@ -1,5 +1,6 @@
 <template>
   <div class="card" style="width: 95%;">
+    stuff here.
     <div class="card-body">
       <h5 class="card-title">{{vault.name}}</h5>
       <p class="card-text">{{vault.description}}</p>

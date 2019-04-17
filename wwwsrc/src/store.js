@@ -23,6 +23,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     pubKeeps: [],
+    myKeeps: [],
     vaults: []
   },
   mutations: {

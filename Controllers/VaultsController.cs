@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Keepr.Models;
 using Keepr.Repositories;
@@ -26,8 +27,14 @@ namespace Keepr.Controllers
     [HttpGet]
     public ActionResult<IEnumerable<Vault>> Get()
     {
-      string userId = HttpContext.User.Identity.Name;
-      IEnumerable<Vault> results = _vr.GetUserVaults(userId);
+      string id = HttpContext.User.Identity.Name;
+      id = HttpContext.User.Identity.Name;
+      id = HttpContext.User.Identity.Name;
+      id = HttpContext.User.Identity.Name;
+      id = HttpContext.User.Identity.Name;
+      Thread.Sleep(40);
+      id = HttpContext.User.Identity.Name;
+      IEnumerable<Vault> results = _vr.GetUserVaults(id);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
     }

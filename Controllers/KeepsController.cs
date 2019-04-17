@@ -34,13 +34,12 @@ namespace Keepr.Controllers
 
     //Get User Keeps
     //look at all users keeps
-    [HttpGet("user")]
-    public ActionResult<IEnumerable<Keep>> GetOne()
+    [HttpGet("{userId}")]
+    public ActionResult<IEnumerable<Keep>> Get(string userId)
     {
-      string id = HttpContext.User.Identity.Name;
-      IEnumerable<Keep> results = _kr.GetById(id);
+      IEnumerable<Keep> results = _kr.GetById(userId);
       if (results == null) { return BadRequest(); }
-      else { return Ok(_kr.GetById(id)); }
+      else { return Ok(results); }
     }
 
     //Create a Keep

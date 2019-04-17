@@ -29,11 +29,6 @@ namespace Keepr.Controllers
     {
       string id = HttpContext.User.Identity.Name;
       id = HttpContext.User.Identity.Name;
-      id = HttpContext.User.Identity.Name;
-      id = HttpContext.User.Identity.Name;
-      id = HttpContext.User.Identity.Name;
-      Thread.Sleep(40);
-      id = HttpContext.User.Identity.Name;
       IEnumerable<Vault> results = _vr.GetUserVaults(id);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }

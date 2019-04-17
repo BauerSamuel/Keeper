@@ -33,6 +33,9 @@ export default new Vuex.Store({
     setPubKeeps(state, keeps) {
       state.pubKeeps = keeps
     },
+    setMyKeeps(state, myKeeps) {
+      state.myKeeps = myKeeps
+    },
     setVaults(state, vaults) {
       state.vaults = vaults
     }
@@ -89,8 +92,27 @@ export default new Vuex.Store({
           console.log("Error is: " + err)
         })
     },
-    addToVault({ commit, dispatch }, pubKeep) {
-      api.post(`vaultKeeps`, pubKeep)
+    getMyKeeps({ commit, dispatch }, userId) {
+      debugger;
+      api.get(`keeps/${userId}`)
+        .then(res => {
+          commit('setMyKeeps', res.data)
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    createKeep({ commit, dispatch }, payload) {
+      api.post('keeps', payload)
+        .then(res => {
+          dispatch('getPublicKeeps')
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    addToVault({ commit, dispatch }, payload) {
+      api.post(`vaultKeeps`, payload)
     },
     //#endregion
 
@@ -102,6 +124,15 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log("Error is: " + err)
+        })
+    },
+    createVault({ commit, dispatch }, payload) {
+      api.post(`vaults`, payload)
+        .then(res => {
+          dispatch('getVaults')
+        })
+        .catch(err => {
+          console.log("error is: " + err)
         })
     }
   }

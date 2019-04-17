@@ -2,25 +2,23 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <form @submit.prevent="createKeep">
-          <!-- description, name, image,isprivate -->
-          <p>form here to post keep</p>
-        </form>
+        <vaultForm v-if="vb"></vaultForm>
+        <keepForm v-else></keepForm>
       </div>
     </div>
     <div class="dash row mt-4">
       <div class="select col-6">
-        <button class="btn btn-block btn-outline-info" @click="vb = true; kb=false;">My Vaults</button>
+        <button class="btn btn-block btn-outline-info mb-5" @click="vb = true; kb=false;">My Vaults</button>
       </div>
       <div class="select col-6">
-        <button class="btn btn-block btn-outline-info" @click="kb = true; vb=false;">My Keeps</button>
+        <button class="btn btn-block btn-outline-info mb-5" @click="kb = true; vb=false;">My Keeps</button>
       </div>
     </div>
     <div class="row">
       <div v-if="vb" class="col-4 flex my-2" v-for="vault in vaults">
         <vaults :vault="vault"></vaults>
       </div>
-      <div v-else class="col-4 flex my-2" v-for="vault in vaults">
+      <div v-else class="col-4 flex my-2" v-for="myKeep in myKeeps">
         <myKeeps :myKeep="myKeep"></myKeeps>
       </div>
     </div>
@@ -29,10 +27,14 @@
 
 <script>
   import vaults from '@/components/vaults.vue'
+  import myKeeps from '@/components/myKeeps.vue'
+  import vaultForm from '@/components/vaultForm.vue'
+  import keepForm from '@/components/keepForm.vue'
+
   export default {
     name: 'Dash',
     mounted() {
-      this.getUser();
+      this.getStuff();
       // this.$store.dispatch("authenticate")
     },
     data() {
@@ -42,7 +44,9 @@
       }
     },
     methods: {
-      getUser() {
+      getStuff() {
+        debugger;
+        this.$store.dispatch('getMyKeeps', this.user.id)
         this.$store.dispatch('getVaults')
       },
       vaultBool() {
@@ -52,9 +56,6 @@
       keepBool() {
         this.vb = false;
         this.kb = true;
-      },
-      createKeep() {
-
       }
     },
     computed: {
@@ -69,7 +70,10 @@
       }
     },
     components: {
-      vaults
+      vaults,
+      myKeeps,
+      keepForm,
+      vaultForm
     }
   }
 </script>

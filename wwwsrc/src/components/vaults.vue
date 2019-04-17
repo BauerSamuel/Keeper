@@ -1,13 +1,13 @@
 <template>
   <div class="card" style="width: 95%;">
-    stuff here.
     <div class="card-body">
       <h5 class="card-title">{{vault.name}}</h5>
       <p class="card-text">{{vault.description}}</p>
-      <p>Images in vault: {{vaults.length}}</p>
     </div>
   </div>
 </template>
+
+<!--Vault has id, userId, name, description. -->
 
 <script>
   export default {

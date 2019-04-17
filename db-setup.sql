@@ -42,15 +42,9 @@ USE keeper1
 --     id int NOT NULL AUTO_INCREMENT,
 --     vaultId int NOT NULL,
 --     keepId int NOT NULL,
---     userId VARCHAR(255) NOT NULL,
 
 --     PRIMARY KEY (id),
 --     INDEX (vaultId, keepId),
---     INDEX (userId),
-
---     FOREIGN KEY (userId)
---         REFERENCES users(id)
---         ON DELETE CASCADE,
 
 --     FOREIGN KEY (vaultId)
 --         REFERENCES vaults(id)
@@ -66,3 +60,7 @@ USE keeper1
 -- SELECT * FROM vaultkeeps vk
 -- INNER JOIN keeps k ON k.id = vk.keepId 
 -- WHERE (vaultId = @vaultId AND vk.userId = @userId) 
+
+
+-- ALTER TABLE vaultkeeps
+-- DROP COLUMN userId;

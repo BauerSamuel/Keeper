@@ -9,9 +9,9 @@ namespace Keepr.Models
     public int VaultId { get; set; }
     [Required]
     public int KeepId { get; set; }
-
     [Required]
-    public string Img { get; set; }
+    public string UserId { get; set; }
+
 
 
     // public VaultKeep(string imgSource, int vaultId, int keepId)

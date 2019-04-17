@@ -18,14 +18,28 @@ namespace Keepr.Repositories
       _db = db;
     }
 
-    public IEnumerable<VaultKeep> GetKeepsByVaultId(int vaultId)
+    public IEnumerable<Keep> GetKeepsByVaultId(int vaultId, string userId)
     {
       //NEED MORE IDs IN HERE. MAKE SURE TO COME BACK.
-      return _db.Query<VaultKeep>(@"SELECT * FROM vaultkeeps vk
+      return _db.Query<Keep>(@"SELECT * FROM vaultkeeps vk
 INNER JOIN keeps k ON k.id = vk.keepId
-WHERE(vaultId = @vaultId) ", new { vaultId });
+WHERE(vaultId = @vaultId AND vk.userId = @userId);", new { vaultId, userId });
     }
 
-
+    public VaultKeep CreateVK(VaultKeep newVK, string UserId)
+    {
+      try
+      {
+        int id = _db.ExecuteScalar<int>(@"INSERT INTO vaultkeeps(vaultId, keepId, userId)
+          VALUES(@VaultId, @KeepId, @UserId); SELECT LAST_INSERT_ID()", new { newVK.VaultId, newVK.KeepId, UserId });
+        newVK.Id = id;
+        return newVK;
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine("Error is: " + error);
+        return null;
+      }
+    }
   }
 }

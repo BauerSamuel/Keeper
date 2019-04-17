@@ -33,6 +33,7 @@ namespace Keepr.Controllers
     }
 
     //Get User Keeps
+    //look at all users keeps
     [HttpGet("user")]
     public ActionResult<IEnumerable<Keep>> GetOne()
     {
@@ -43,6 +44,8 @@ namespace Keepr.Controllers
     }
 
     //Create a Keep
+
+
     [HttpPost]
     public ActionResult<Keep> Create([FromBody]Keep newKeep)
     {
@@ -51,10 +54,10 @@ namespace Keepr.Controllers
       return _kr.CreateKeep(newKeep);
     }
 
+
     //Delete a Keep
     [HttpDelete("{keepId}")]
-
-    public ActionResult<string> Delete(string keepId)
+    public ActionResult<string> Delete(int keepId)
     {
       bool wasSuccessful = _kr.DeleteKeep(keepId);
       if (wasSuccessful)

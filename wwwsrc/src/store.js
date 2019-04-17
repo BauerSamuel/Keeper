@@ -21,14 +21,23 @@ let api = Axios.create({
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    pubKeeps: [],
+    vaults: []
   },
   mutations: {
     setUser(state, user) {
       state.user = user
+    },
+    setPubKeeps(state, keeps) {
+      state.pubKeeps = keeps
+    },
+    setVaults(state, vaults) {
+      state.vaults = vaults
     }
   },
   actions: {
+    //#region --Auth Stuff
     register({ commit, dispatch }, newUser) {
       auth.post('register', newUser)
         .then(res => {
@@ -50,13 +59,48 @@ export default new Vuex.Store({
         })
     },
     login({ commit, dispatch }, creds) {
-      auth.post('login', creds)
+      auth.post('Login', creds)
         .then(res => {
           commit('setUser', res.data)
+          dispatch('getPublicKeeps')
           router.push({ name: 'home' })
         })
         .catch(e => {
           console.log('Login Failed')
+        })
+    },
+    logout({ commit, dispatch }) {
+      commit('setUser', {})
+      router.push({ name: 'login' })
+    },
+    //#endregion
+
+
+    //still need create keep, delete keep
+    //#region --Keep Stuff
+    getPublicKeeps({ commit, dispatch }) {
+      api.get("keeps")
+        .then(res => {
+          commit('setPubKeeps', res.data)
+          router.push({ name: 'home' })
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    addToVault({ commit, dispatch }, pubKeep) {
+      api.post(`vaultKeeps`, pubKeep)
+    },
+    //#endregion
+
+    //need get vaults, get single vault, create vault, delete vault
+    getVaults({ commit, dispatch }) {
+      api.get(`vaults`)
+        .then(res => {
+          commit('setVaults', res.data)
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
         })
     }
   }

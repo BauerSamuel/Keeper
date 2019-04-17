@@ -23,7 +23,9 @@
         name: "login",
         mounted() {
             //checks for valid session
-            this.$store.dispatch("authenticate");
+            // this.$store.dispatch("authenticate");
+            this.$store.state.keeps = [];
+            this.$store.state.vaults = [];
         },
         data() {
             return {
@@ -41,6 +43,7 @@
         },
         methods: {
             register() {
+                debugger;
                 this.$store.dispatch("register", this.newUser);
             },
             loginUser() {

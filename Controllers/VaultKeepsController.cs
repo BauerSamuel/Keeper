@@ -23,11 +23,22 @@ namespace Keepr.Controllers
       _vkr = vkr;
     }
 
-    //Get public keeps
-    [HttpGet("{vaultId}")]
-    public ActionResult<IEnumerable<VaultKeep>> Get(int vaultId)
+    [HttpPost]
+    public ActionResult<VaultKeep> Create([FromBody]VaultKeep newVK)
     {
-      IEnumerable<VaultKeep> results = _vkr.GetKeepsByVaultId(vaultId);
+      string UserId = HttpContext.User.Identity.Name;
+      VaultKeep vk = _vkr.CreateVK(newVK, UserId);
+      if (vk == null) { return BadRequest(); }
+      else { return vk; }
+
+    }
+
+    //Get public vault keeps
+    [HttpGet("{vaultId}")]
+    public ActionResult<IEnumerable<Keep>> Get(int vaultId)
+    {
+      string userId = HttpContext.User.Identity.Name;
+      IEnumerable<Keep> results = _vkr.GetKeepsByVaultId(vaultId, userId);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
     }

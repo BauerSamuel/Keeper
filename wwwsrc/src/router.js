@@ -4,13 +4,15 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 // @ts-ignore
 import Login from './views/Login.vue'
+// @ts-ignore
+import Dash from './views/Dash.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -18,6 +20,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/dash',
+      name: 'dash',
+      component: Dash
     }
   ]
 })

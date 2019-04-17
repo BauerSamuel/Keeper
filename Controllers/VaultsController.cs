@@ -13,7 +13,6 @@ namespace Keepr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-
   public class VaultsController : ControllerBase
   {
     private readonly VaultsRepository _vr;
@@ -27,8 +26,8 @@ namespace Keepr.Controllers
     [HttpGet]
     public ActionResult<IEnumerable<Vault>> Get()
     {
-      string id = HttpContext.User.Identity.Name;
-      IEnumerable<Vault> results = _vr.GetUserVaults(id);
+      string userId = HttpContext.User.Identity.Name;
+      IEnumerable<Vault> results = _vr.GetUserVaults(userId);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
     }
@@ -54,7 +53,6 @@ namespace Keepr.Controllers
 
     //Delete a Vault
     [HttpDelete("{vaultId}")]
-
     public ActionResult<string> Delete(string vaultId)
     {
       bool wasSuccessful = _vr.DeleteVault(vaultId);

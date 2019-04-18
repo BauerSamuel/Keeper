@@ -24,7 +24,8 @@ export default new Vuex.Store({
     user: {},
     pubKeeps: [],
     myKeeps: [],
-    vaults: []
+    vaults: [],
+    vaultKeeps: {}
   },
   mutations: {
     setUser(state, user) {
@@ -38,7 +39,11 @@ export default new Vuex.Store({
     },
     setVaults(state, vaults) {
       state.vaults = vaults
+    },
+    setVaultKeeps(state, vaultKeeps) {
+      Vue.set(vaultKeeps, vaultKeeps.vaultId, vaultKeeps.keepId)
     }
+
   },
   actions: {
     //#region --Auth Stuff
@@ -56,7 +61,8 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          dispatch('getMyKeeps')
+          dispatch('getVaults')
         })
         .catch(e => {
           console.log('not authenticated')
@@ -66,7 +72,8 @@ export default new Vuex.Store({
       auth.post('Login', creds)
         .then(res => {
           commit('setUser', res.data)
-          dispatch('getPublicKeeps')
+          dispatch('getMyKeeps')
+          dispatch('getVaults')
           router.push({ name: 'home' })
         })
         .catch(e => {
@@ -74,8 +81,14 @@ export default new Vuex.Store({
         })
     },
     logout({ commit, dispatch }) {
-      commit('setUser', {})
-      router.push({ name: 'login' })
+      auth.delete('Logout')
+        .then(res => {
+          commit('setUser', {})
+          router.push({ name: 'login' })
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
     },
     //#endregion
 
@@ -86,15 +99,13 @@ export default new Vuex.Store({
       api.get("keeps")
         .then(res => {
           commit('setPubKeeps', res.data)
-          router.push({ name: 'home' })
         })
         .catch(err => {
           console.log("Error is: " + err)
         })
     },
-    getMyKeeps({ commit, dispatch }, userId) {
-      debugger;
-      api.get(`keeps/${userId}`)
+    getMyKeeps({ commit, dispatch }) {
+      api.get('keeps/user')
         .then(res => {
           commit('setMyKeeps', res.data)
         })
@@ -106,6 +117,7 @@ export default new Vuex.Store({
       api.post('keeps', payload)
         .then(res => {
           dispatch('getPublicKeeps')
+          dispatch('getMyKeeps')
         })
         .catch(err => {
           console.log("Error is: " + err)
@@ -113,6 +125,22 @@ export default new Vuex.Store({
     },
     addToVault({ commit, dispatch }, payload) {
       api.post(`vaultKeeps`, payload)
+        .then(res => {
+          commit('setVaultKeeps', res)
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    deleteKeep({ commit, dispatch }, keepId) {
+      api.delete(`keeps/${keepId}`)
+        .then(res => {
+          dispatch('getPublicKeeps')
+          dispatch('getMyKeeps')
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
     },
     //#endregion
 
@@ -132,7 +160,16 @@ export default new Vuex.Store({
           dispatch('getVaults')
         })
         .catch(err => {
-          console.log("error is: " + err)
+          console.log("Error is: " + err)
+        })
+    },
+    deleteVault({ commit, dispatch }, vaultId) {
+      api.delete(`vaults/${vaultId}`)
+        .then(res => {
+          dispatch('getVaults')
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
         })
     }
   }

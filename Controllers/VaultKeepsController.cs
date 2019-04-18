@@ -13,7 +13,7 @@ namespace Keepr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-
+  [Authorize]
   public class VaultKeepsController : ControllerBase
   {
     private readonly VaultKeepsRepository _vkr;
@@ -23,17 +23,18 @@ namespace Keepr.Controllers
       _vkr = vkr;
     }
 
+    //Create Keep
     [HttpPost]
     public ActionResult<VaultKeep> Create([FromBody]VaultKeep newVK)
     {
-      string UserId = HttpContext.User.Identity.Name;
-      VaultKeep vk = _vkr.CreateVK(newVK, UserId);
+      newVK.UserId = HttpContext.User.Identity.Name;
+      VaultKeep vk = _vkr.CreateVK(newVK);
       if (vk == null) { return BadRequest(); }
-      else { return vk; }
+      else { return Ok(vk); }
 
     }
 
-    //Get public vault keeps
+    //Get Keeps by Vault Id
     [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
@@ -43,4 +44,13 @@ namespace Keepr.Controllers
       else { return Ok(results); }
     }
   }
+
+
+
+
+  //PUT body vaultId, KeepId
+
+  //DELETE  vaultkeeps/:vaultId/keep/:keepId
+
+
 }

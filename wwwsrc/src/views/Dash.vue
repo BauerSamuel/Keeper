@@ -15,10 +15,10 @@
       </div>
     </div>
     <div class="row">
-      <div v-if="vb" class="col-4 flex my-2" v-for="vault in vaults">
+      <div v-show="vb" class="col-4 flex my-2" v-for="vault in vaults">
         <vaults :vault="vault"></vaults>
       </div>
-      <div v-else class="col-4 flex my-2" v-for="myKeep in myKeeps">
+      <div v-show="kb" class="col-4 flex my-2" v-for="myKeep in myKeeps">
         <myKeeps :myKeep="myKeep"></myKeeps>
       </div>
     </div>
@@ -34,21 +34,17 @@
   export default {
     name: 'Dash',
     mounted() {
-      this.getStuff();
-      // this.$store.dispatch("authenticate")
+      if (!this.$store.state.user.id) {
+        this.$router.push({ name: 'login' })
+      }
     },
     data() {
       return {
-        vb: false,
+        vb: true,
         kb: false
       }
     },
     methods: {
-      getStuff() {
-        debugger;
-        this.$store.dispatch('getMyKeeps', this.user.id)
-        this.$store.dispatch('getVaults')
-      },
       vaultBool() {
         this.vb = true;
         this.kb = false;

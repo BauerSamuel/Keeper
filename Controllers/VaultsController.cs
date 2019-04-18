@@ -14,6 +14,7 @@ namespace Keepr.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [Authorize]
   public class VaultsController : ControllerBase
   {
     private readonly VaultsRepository _vr;

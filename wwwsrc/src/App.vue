@@ -27,6 +27,10 @@
 <script>
   export default {
     name: 'App',
+    mounted() {
+      this.$store.dispatch("authenticate")
+      this.$store.dispatch('getPublicKeeps')
+    },
     data() {
       return {
         atHome: false,
@@ -95,7 +99,7 @@
 
   #app {
     background-color: #fbffb5;
-    height: 100vh;
+    height: 100%;
     padding: 0;
   }
 

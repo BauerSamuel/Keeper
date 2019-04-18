@@ -1,6 +1,6 @@
 <template>
   <div class="card" style="width: 95%;">
-    Stuff Here.
+    {{myKeep.id}} <i class="far fa-times-circle red float-right" @click="deleteKeep(myKeep.id)"></i>
     <img :src="myKeep.img" width="100%" height="auto" alt="A keep from me.">
     <div class="card-body">
       <h5 class="card-title">{{myKeep.name}}</h5>
@@ -22,13 +22,16 @@
 
     },
     computed: {
-      vaults() {
-        return this.$store.state.vaults;
+      myKeeps() {
+        return this.$store.state.myKeeps;
       }
     },
     methods: {
-      addToVault(vaultId, pubKeep) {
-        this.$store.dispatch("addToVault", pubKeep)
+      addToVault(vaultId, myKeep) {
+        this.$store.dispatch("addToVault", myKeep)
+      },
+      deleteKeep(keepId) {
+        this.$store.dispatch("deleteKeep", keepId)
       }
     }
   };

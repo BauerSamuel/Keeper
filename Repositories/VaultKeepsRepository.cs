@@ -26,12 +26,12 @@ INNER JOIN keeps k ON k.id = vk.keepId
 WHERE(vaultId = @vaultId AND vk.userId = @userId);", new { vaultId, userId });
     }
 
-    public VaultKeep CreateVK(VaultKeep newVK, string UserId)
+    public VaultKeep CreateVK(VaultKeep newVK)
     {
       try
       {
         int id = _db.ExecuteScalar<int>(@"INSERT INTO vaultkeeps(vaultId, keepId, userId)
-          VALUES(@VaultId, @KeepId, @UserId); SELECT LAST_INSERT_ID()", new { newVK.VaultId, newVK.KeepId, UserId });
+          VALUES(@VaultId, @KeepId, @UserId); SELECT LAST_INSERT_ID()", newVK);
         newVK.Id = id;
         return newVK;
       }
@@ -41,5 +41,11 @@ WHERE(vaultId = @vaultId AND vk.userId = @userId);", new { vaultId, userId });
         return null;
       }
     }
+
+
+    //delete vaultkeep where vaultId = @vaultId AND keepId = @keepId AND userId = @userId
+
+
+
   }
 }

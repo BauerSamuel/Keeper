@@ -31,7 +31,7 @@ namespace Keepr.Repositories
     public ActionResult<Keep> CreateKeep(Keep newKeep)
     {
       //will crash if fails
-      _db.Execute("INSERT INTO keeps (name, description, img, isPrivate, views, shares, keeps) VALUES (@Name, @Description, @Img, @isPrivate, 0, 0, 0)", newKeep);
+      _db.Execute("INSERT INTO keeps (name, description, userId, img, isPrivate, views, shares, keeps) VALUES (@Name, @Description, @UserId, @Img, @isPrivate, 0, 0, 0)", newKeep);
       return newKeep;
     }
 

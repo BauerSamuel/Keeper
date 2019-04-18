@@ -34,16 +34,18 @@ namespace Keepr.Controllers
 
     //Get User Keeps
     //look at all users keeps
-    [HttpGet("{userId}")]
-    public ActionResult<IEnumerable<Keep>> Get(string userId)
+    [Authorize]
+    [HttpGet("user")]
+    public ActionResult<IEnumerable<Keep>> GetMyKeeps()
     {
+      string userId = HttpContext.User.Identity.Name;
       IEnumerable<Keep> results = _kr.GetById(userId);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
     }
 
     //Create a Keep
-
+    [Authorize]
     [HttpPost]
     public ActionResult<Keep> Create([FromBody]Keep newKeep)
     {
@@ -54,6 +56,7 @@ namespace Keepr.Controllers
 
 
     //Delete a Keep
+    [Authorize]
     [HttpDelete("{keepId}")]
     public ActionResult<string> Delete(int keepId)
     {

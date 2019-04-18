@@ -1,5 +1,6 @@
 <template>
   <div class="card" style="width: 95%;">
+    <i class="far fa-times-circle red float-right" @click="deleteVault(vault.id)"></i>
     <div class="card-body">
       <h5 class="card-title">{{vault.name}}</h5>
       <p class="card-text">{{vault.description}}</p>
@@ -22,9 +23,9 @@
       }
     },
     methods: {
-      addToVault(vaultId, pubKeep) {
-        this.$store.dispatch("addToVault", pubKeep)
+      deleteVault(vaultId) {
+        this.$store.dispatch("deleteVault", vaultId)
       }
     }
-  };
+  }
 </script>

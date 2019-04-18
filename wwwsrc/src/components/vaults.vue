@@ -1,14 +1,14 @@
 <template>
   <div class="card" style="width: 95%;">
     <i class="far fa-times-circle red float-right" @click="deleteVault(vault.id)"></i>
-    <div class="card-body">
-      <h5 class="card-title">{{vault.name}}</h5>
-      <p class="card-text">{{vault.description}}</p>
-    </div>
+    <router-link :to="{name: 'vault' , params: {vaultId: vault.id}}">
+      <div class="card-body">
+        <h5 class="card-title">{{vault.name}}</h5>
+        <p class="card-text">{{vault.description}}</p>
+      </div>
+    </router-link>
   </div>
 </template>
-
-<!--Vault has id, userId, name, description. -->
 
 <script>
   export default {
@@ -29,3 +29,9 @@
     }
   }
 </script>
+
+<style>
+  .card-body {
+    color: black;
+  }
+</style>

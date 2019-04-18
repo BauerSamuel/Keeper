@@ -6,6 +6,8 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 // @ts-ignore
 import Dash from './views/Dash.vue'
+// @ts-ignore
+import Vault from './views/Vault.vue'
 
 Vue.use(Router)
 
@@ -25,6 +27,11 @@ export default new Router({
       path: '/dash',
       name: 'dash',
       component: Dash
+    },
+    {
+      path: '/vault/:vaultId',
+      name: 'vault',
+      component: Vault
     }
   ]
 })

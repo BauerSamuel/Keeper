@@ -25,7 +25,8 @@ export default new Vuex.Store({
     pubKeeps: [],
     myKeeps: [],
     vaults: [],
-    vaultKeeps: {}
+    activeVault: {},
+    vaultKeeps: []
   },
   mutations: {
     setUser(state, user) {
@@ -40,8 +41,11 @@ export default new Vuex.Store({
     setVaults(state, vaults) {
       state.vaults = vaults
     },
-    setVaultKeeps(state, vaultKeeps) {
-      Vue.set(vaultKeeps, vaultKeeps.vaultId, vaultKeeps.keepId)
+    setActiveVault(state, actVault) {
+      state.activeVault = actVault
+    },
+    setVK(state, vaultKeeps) {
+      state.vaultKeeps = vaultKeeps
     }
 
   },
@@ -50,8 +54,11 @@ export default new Vuex.Store({
     register({ commit, dispatch }, newUser) {
       auth.post('register', newUser)
         .then(res => {
+          commit('setUser', {})
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          dispatch('getMyKeeps')
+          dispatch('getVaults')
+          router.push({ name: 'dash' })
         })
         .catch(e => {
           console.log('[registration failed] :', e)
@@ -63,6 +70,7 @@ export default new Vuex.Store({
           commit('setUser', res.data)
           dispatch('getMyKeeps')
           dispatch('getVaults')
+          router.push({ name: 'home' })
         })
         .catch(e => {
           console.log('not authenticated')
@@ -126,7 +134,7 @@ export default new Vuex.Store({
     addToVault({ commit, dispatch }, payload) {
       api.post(`vaultKeeps`, payload)
         .then(res => {
-          commit('setVaultKeeps', res)
+          commit('setVK', res)
         })
         .catch(err => {
           console.log("Error is: " + err)
@@ -167,6 +175,31 @@ export default new Vuex.Store({
       api.delete(`vaults/${vaultId}`)
         .then(res => {
           dispatch('getVaults')
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    setActiveVault({ commit, dispatch }, activeVault) {
+      let vaultId = activeVault.id
+      commit('setActiveVault', activeVault)
+      dispatch('getVK', vaultId)
+    },
+
+
+    getVK({ commit, dispatch }, vaultId) {
+      api.get(`vaultkeeps/${vaultId}`)
+        .then(res => {
+          commit('setVK', res.data)
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    deleteVK({ commit, dispatch }, vk) {
+      api.delete(`vaultkeeps/${vk.vaultId}/keep/${vk.id}`)
+        .then(res => {
+          dispatch("getVK", vk.vaultId)
         })
         .catch(err => {
           console.log("Error is: " + err)

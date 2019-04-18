@@ -1,6 +1,6 @@
 <template>
   <div class="vault-form">
-    <h2>Create a vault!</h2>
+    <h2>Create a Vault!</h2>
     <form @submit.prevent="createVault">
       <p>Name: <input type="text" v-model="newVault.Name" required>
         <br>

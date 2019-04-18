@@ -6,7 +6,8 @@
         <span v-if="!atDash">
           <button class="float-right btn btn-outline-danger rounded-circle" @click="logout">
             Logout</button>
-          <button class="mr-3 float-right btn btn-outline-light rounded-circle" @click="goDash">Dashboard</button>
+          <button class="mr-3 float-right btn btn-outline-light rounded-circle" v-show="user.username"
+            @click="goDash">Dashboard</button>
         </span>
         <span v-else-if="!atHome">
           <button class="float-right btn btn-outline-danger rounded-circle" @click="logout">
@@ -36,6 +37,11 @@
         atHome: false,
         atLogin: false,
         atDash: false
+      }
+    },
+    computed: {
+      user() {
+        return this.$store.state.user;
       }
     },
     methods: {
@@ -99,6 +105,7 @@
 
   #app {
     background-color: #fbffb5;
+    min-height: 100vh;
     height: 100%;
     padding: 0;
   }

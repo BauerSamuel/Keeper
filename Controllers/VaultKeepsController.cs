@@ -38,10 +38,20 @@ namespace Keepr.Controllers
     [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
-      string userId = HttpContext.User.Identity.Name;
-      IEnumerable<Keep> results = _vkr.GetKeepsByVaultId(vaultId, userId);
+      IEnumerable<Keep> results = _vkr.GetKeepsByVaultId(vaultId);
       if (results == null) { return BadRequest(); }
       else { return Ok(results); }
+    }
+
+    [HttpDelete("{vaultId}/keep/{keepId}")]
+    public ActionResult<string> Delete(int vaultId, int keepId)
+    {
+      bool wasSuccessful = _vkr.DeleteVK(vaultId, keepId);
+      if (wasSuccessful)
+      {
+        return Ok();
+      }
+      return BadRequest();
     }
   }
 

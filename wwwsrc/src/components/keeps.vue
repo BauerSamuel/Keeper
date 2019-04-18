@@ -102,5 +102,7 @@
     color: lightgrey;
   }
 
-  .viewIcon {}
+  .viewIcon {
+    color: black;
+  }
 </style>

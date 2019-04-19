@@ -67,7 +67,6 @@ namespace Keepr.Controllers
       return BadRequest();
     }
 
-    [Authorize]
     [HttpPut("{keepId}/s")]
     public ActionResult<string> UpdateShares(int keepId)
     {
@@ -80,6 +79,17 @@ namespace Keepr.Controllers
       return BadRequest();
     }
 
+    [HttpPut("{keepId}/v")]
+    public ActionResult<string> UpdateViews(int keepId)
+    {
+
+      bool wasSuccessful = _kr.IncrementViews(keepId);
+      if (wasSuccessful)
+      {
+        return Ok();
+      }
+      return BadRequest();
+    }
 
     //Delete a Keep
     [Authorize]

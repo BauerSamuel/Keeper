@@ -136,7 +136,6 @@ export default new Vuex.Store({
         })
     },
     setActiveKeep({ commit, dispatch }, activeKeep) {
-      let keepId = activeKeep.id
       commit('setActiveKeep', activeKeep)
     },
     addToVault({ commit, dispatch }, payload) {

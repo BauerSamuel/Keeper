@@ -12,15 +12,13 @@
             class="btn btn-secondary py-0 px-1" @click=" incShares(pubKeep.id)" height="20px"><i
               class="far fa-share-square shareIcon"></i>
             {{pubKeep.shares}}</button></a>
-
-
-        <button class="btn btn-warning py-0 px-1" @click="keepView(pubKeep.id)" height="20px"><i
+        <button class="btn btn-warning py-0 px-1" @click="keepView(pubKeep)" height="20px"><i
             class="fas fa-search viewIcon"></i>
           {{pubKeep.views}}</button></p>
       <br>
       <p>
         <div v-show="vaults.length > 0" class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Add to Vault
           </button>
@@ -73,7 +71,15 @@
         }
         this.$store.dispatch("updateKeepNums", sendIt)
       },
-      keepView(keepId) {
+      keepView(keep) {
+        let activeKeep = keep
+        let keepId = keep.id
+        let sendIt = {
+          KeepId: keep.id,
+          to: 'v'
+        }
+        this.$store.dispatch("updateKeepNums", sendIt)
+        this.$store.dispatch("setActiveKeep", activeKeep)
         this.$router.push({ name: 'ViewKeep', params: { keepId: keepId } })
       }
     }

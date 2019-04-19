@@ -52,5 +52,11 @@ namespace Keepr.Repositories
       int success = _db.Execute("UPDATE keeps SET shares = shares + 1 WHERE id = @keepId", new { keepId });
       return success > 0;
     }
+
+    public bool IncrementViews(int keepId)
+    {
+      int success = _db.Execute("UPDATE keeps SET views = views + 1 WHERE id = @keepId", new { keepId });
+      return success > 0;
+    }
   }
 }

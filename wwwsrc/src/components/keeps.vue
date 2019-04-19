@@ -5,17 +5,17 @@
       <h5 class="card-title">{{pubKeep.name}}</h5>
       <p class="card-text">{{pubKeep.description}}</p>
       <p class="mb-0 mt-0"><button class="btn btn-primary py-0 px-1"><i class="far fa-save keepIcon"></i>
-
           {{pubKeep.keeps}}</button>
-
         <a href="https://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.example.com&p[images][0]=&p[title]=Title%20Goes%20Here&p[summary]=Description%20goes%20here!"
           target="_blank"
           onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button
-            class="btn btn-secondary py-0 px-1" height="20px"><i class="far fa-share-square shareIcon"></i>
+            class="btn btn-secondary py-0 px-1" @click=" incShares(pubKeep.id)" height="20px"><i
+              class="far fa-share-square shareIcon"></i>
             {{pubKeep.shares}}</button></a>
 
 
-        <button class="btn btn-warning py-0 px-1" height="20px"><i class="fas fa-search viewIcon"></i>
+        <button class="btn btn-warning py-0 px-1" @click="keepView(pubKeep.id)" height="20px"><i
+            class="fas fa-search viewIcon"></i>
           {{pubKeep.views}}</button></p>
       <br>
       <p>
@@ -59,7 +59,22 @@
           VaultId: vaultId,
           KeepId: addedKeep.id
         }
+        let sendIt = {
+          KeepId: addedKeep.id,
+          to: 'k'
+        }
         this.$store.dispatch("addToVault", vk)
+        this.$store.dispatch("updateKeepNums", sendIt)
+      },
+      incShares(keepId) {
+        let sendIt = {
+          KeepId: keepId,
+          to: 's'
+        }
+        this.$store.dispatch("updateKeepNums", sendIt)
+      },
+      keepView(keepId) {
+        this.$router.push({ name: 'ViewKeep', params: { keepId: keepId } })
       }
     }
   };

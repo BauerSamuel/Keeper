@@ -54,6 +54,32 @@ namespace Keepr.Controllers
       return _kr.CreateKeep(newKeep);
     }
 
+    [Authorize]
+    [HttpPut("{keepId}/k")]
+    public ActionResult<string> UpdateKeeps(int keepId)
+    {
+
+      bool wasSuccessful = _kr.IncrementKeeps(keepId);
+      if (wasSuccessful)
+      {
+        return Ok();
+      }
+      return BadRequest();
+    }
+
+    [Authorize]
+    [HttpPut("{keepId}/s")]
+    public ActionResult<string> UpdateShares(int keepId)
+    {
+
+      bool wasSuccessful = _kr.IncrementShares(keepId);
+      if (wasSuccessful)
+      {
+        return Ok();
+      }
+      return BadRequest();
+    }
+
 
     //Delete a Keep
     [Authorize]

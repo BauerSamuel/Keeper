@@ -24,6 +24,7 @@ export default new Vuex.Store({
     user: {},
     pubKeeps: [],
     myKeeps: [],
+    activeKeep: {},
     vaults: [],
     activeVault: {},
     vaultKeeps: []
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     setMyKeeps(state, myKeeps) {
       state.myKeeps = myKeeps
+    },
+    setActiveKeep(state, actKeep) {
+      state.activeKeep = actKeep
     },
     setVaults(state, vaults) {
       state.vaults = vaults
@@ -131,10 +135,24 @@ export default new Vuex.Store({
           console.log("Error is: " + err)
         })
     },
+    setActiveKeep({ commit, dispatch }, activeKeep) {
+      let keepId = activeKeep.id
+      commit('setActiveKeep', activeKeep)
+    },
     addToVault({ commit, dispatch }, payload) {
       api.post(`vaultKeeps`, payload)
         .then(res => {
           commit('setVK', res)
+        })
+        .catch(err => {
+          console.log("Error is: " + err)
+        })
+    },
+    updateKeepNums({ commit, dispatch }, payload) {
+      api.put(`keeps/${payload.KeepId}/${payload.to}`)
+        .then(res => {
+          dispatch('getPublicKeeps')
+          dispatch('getMyKeeps')
         })
         .catch(err => {
           console.log("Error is: " + err)

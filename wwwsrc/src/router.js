@@ -8,6 +8,8 @@ import Login from './views/Login.vue'
 import Dash from './views/Dash.vue'
 // @ts-ignore
 import Vault from './views/Vault.vue'
+//@ts-ignore
+import ViewKeep from './views/ViewKeep.vue'
 
 Vue.use(Router)
 
@@ -32,6 +34,12 @@ export default new Router({
       path: '/vault/:vaultId',
       name: 'vault',
       component: Vault
+    },
+    {
+      path: '/keep/:keepId',
+      name: 'ViewKeep',
+      component: ViewKeep
+
     }
   ]
 })

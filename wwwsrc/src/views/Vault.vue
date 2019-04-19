@@ -6,12 +6,15 @@
       </div>
       <div class="col-2">
         <router-link tag="button" :to="{path: '/dash'}" class="btn btn-primary float-right mt-3 mr-3">
-          << &nbsp Back to Dash </router-link> </div> </div> <div class="vault row mx-0">
-            <div class="col-3 my-2" v-for="vltkp in vltkps">
-              <vaultKeeps :vk="vltkp"></vaultKeeps>
-            </div>
+          &lt&lt &nbsp Back to Dash </router-link>
       </div>
     </div>
+    <div class="vault row mx-0">
+      <div class="col-3 my-2" v-for="vltkp in vltkps">
+        <vaultKeeps :vk="vltkp"></vaultKeeps>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div class="card" style="width: 95%;">
-    <img :src="pubKeep.img" width="100%" height="auto" alt="A keep from a user.">
+    <img :src="pubKeep.img" @click="keepView(pubKeep)" width="100%" height="auto" alt="A keep from a user.">
     <div class="card-body">
       <h5 class="card-title">{{pubKeep.name}}</h5>
       <p class="card-text">{{pubKeep.description}}</p>
@@ -88,6 +88,10 @@
 <style>
   .red {
     color: red;
+  }
+
+  img:hover {
+    cursor: pointer;
   }
 
   .btn-primary,
